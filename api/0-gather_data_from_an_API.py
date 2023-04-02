@@ -7,24 +7,28 @@ Created on Sun Apr 2 17:31:00 2023.
     This script makes a request on jsonplaceholder which returns a user
     with completed tasks and filter by the id given in the execution.
 """
-from json import JSONDecodeError
-import requests
+import json
 import sys
+import urllib.request
 
 user = sys.argv[1]
 
-resp = requests.get(
-    f'https://jsonplaceholder.typicode.com/todos?userId={user}')
-employee_resp = requests.get(
-    f'https://jsonplaceholder.typicode.com/users/{user}'
-)
+todos_url = 'https://jsonplaceholder.typicode.com/todos?userId={}'.format(user)
+employee_url = 'https://jsonplaceholder.typicode.com/users/{}'.format(user)
 
-employee_list = {}
+# Request for the taks
+with urllib.request.urlopen(todos_url) as response:
+    todos_data = response.read().decode()
+
+# Request for the employee info
+with urllib.request.urlopen(employee_url) as response:
+    employee_data = response.read().decode()
+
 employee_info = {}
 try:
-    employee_taks = resp.json()
-    employee_info = employee_resp.json()
-except JSONDecodeError:
+    employee_taks = json.loads(todos_data)
+    employee_info = json.loads(employee_data)
+except json.JSONDecodeError:
     print('Response could not be serialized')
 
 completed = total_taks = 0
@@ -34,16 +38,15 @@ taks_name_list = ""
 for task in employee_taks:
     if task['completed'] is True:
         completed += 1
-        taks_name_list += "\t " + f"{task['title']}\n"
+        taks_name_list += "\t {}\n".format(task['title'])
     total_taks += 1
-
 
 employee_name = employee_info['name']
 
 # Format the all print for the employee taks
-print_employee = f"""\
-Employee {employee_name} is done with tasks({completed}/{total_taks}):
-{taks_name_list[:-1]}\
-"""
+print_employee = """\
+Employee {} is done with tasks({}/{}):
+{}\
+""".format(employee_name, completed, total_taks, taks_name_list[:-1])
 
 print(print_employee)

@@ -14,8 +14,8 @@ import urllib.request
 USER = sys.argv[1]
 COMPLETED = TOTAL_TASK = 0
 TASK_LIST = ""
-TODOS_URL = 'https://jsonplaceholder.typicode.com/todos?userId={}'.format(USER)
-EMPLOYEE_URL = 'https://jsonplaceholder.typicode.com/users/{}'.format(USER)
+TODOS_URL = f'https://jsonplaceholder.typicode.com/todos?userId={USER}'
+EMPLOYEE_URL = f'https://jsonplaceholder.typicode.com/users/{USER}'
 
 # Request for the taks
 with urllib.request.urlopen(TODOS_URL) as response:
@@ -37,20 +37,15 @@ except json.JSONDecodeError:
 for task in employee_taks:
     if task['completed'] is True:
         COMPLETED += 1
-        TASK_LIST += "\t {}\n".format(task['title'])
+        TASK_LIST += f"\t {task['title']}\n"
     TOTAL_TASK += 1
 
 employee_name = employee_info['name']
 
 # Format the all print for the employee taks
-print_employee = """\
-Employee {} is done with tasks({}/{}):
-{}\
-""".format(
-    employee_name,
-    COMPLETED,
-    TOTAL_TASK,
-    TASK_LIST[:-1]
-)
+print_employee = f"""\
+Employee {employee_name} is done with tasks({COMPLETED}/{TOTAL_TASK}):
+{TASK_LIST[:-1]}\
+"""
 
 print(print_employee)

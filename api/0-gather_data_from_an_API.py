@@ -1,12 +1,5 @@
 #!/usr/bin/python3
-"""
-Created on Sun Apr 2 17:31:00 2023.
-
-@authors: jgnacio
-@description:
-    This script makes a request on jsonplaceholder which returns a user
-    with completed tasks and filter by the id given in the execution.
-"""
+"""This script makes a request on jsonplaceholder which returns a user."""
 import json
 import sys
 import urllib.request

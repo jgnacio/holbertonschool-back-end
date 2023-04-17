@@ -1,5 +1,12 @@
 #!/usr/bin/python3
-"""This script makes a request on jsonplaceholder which returns a user."""
+"""
+Created on Sun Apr 2 17:31:00 2023.
+
+@authors: jgnacio
+@description:
+    This script makes a request on jsonplaceholder which returns a user
+    with completed tasks and filter by the id given in the execution.
+"""
 import json
 import sys
 import urllib.request
@@ -26,7 +33,6 @@ if __name__ == '__main__':
     except json.JSONDecodeError:
         print('Response could not be serialized')
 
-
     # Get all the taks name in order and how many are complete.
     for task in employee_taks:
         if task['completed'] is True:
@@ -37,9 +43,7 @@ if __name__ == '__main__':
     employee_name = employee_info['name']
 
     # Format the all print for the employee taks
-    print_employee = f"""\
-    Employee {employee_name} is done with tasks({COMPLETED}/{TOTAL_TASK}):
-    {TASK_LIST[:-1]}\
-    """
+    t_info = f"is done with tasks({COMPLETED}/{TOTAL_TASK}):\n{TASK_LIST[:-1]}"
+    print_employee = f"Employee {employee_name} " + t_info
 
     print(print_employee)
